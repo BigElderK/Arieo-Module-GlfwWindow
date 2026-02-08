@@ -1,0 +1,37 @@
+#include "base/prerequisites.h"
+#include "core/core.h"
+#include "glfw_window.h"
+namespace Arieo
+{
+    GENERATOR_MODULE_ENTRY_FUN()
+    ARIEO_DLLEXPORT void ModuleMain()
+    {
+        Core::Logger::setDefaultLogger("glfw_window");
+
+        static struct DllLoader
+        {
+            GLFWindowManager glfw_window_manager;
+
+            DllLoader()
+            {
+                glfw_window_manager.initialize();
+                
+                Interface::Main::IMainModule* main_module = Core::ModuleManager::getInterface<Interface::Main::IMainModule>();
+                main_module->registerTickable(&glfw_window_manager);
+
+                Core::ModuleManager::registerInterface<Interface::Window::IWindowManager>(
+                    "glfw_window_manager", 
+                    &glfw_window_manager
+                );
+            }
+
+            ~DllLoader()
+            {
+                Core::ModuleManager::unregisterInterface<Interface::Window::IWindowManager>(
+                    &glfw_window_manager
+                );
+                glfw_window_manager.finalize();
+            }
+        } dll_loader;
+    }
+}
