@@ -17,9 +17,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows" OR CMAKE_SYSTEM_NAME STREQUAL "Darwin")
         INTERFACES
             Arieo-Interface-Window::arieo_window_interface
         PACKAGES
-            Arieo-Interface-Window
             glfw
-            Arieo-Core
         PRIVATE_LIBS
             arieo::base
             arieo::core
