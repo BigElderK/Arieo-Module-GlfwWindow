@@ -1,25 +1,30 @@
 cmake_minimum_required (VERSION 3.31)
 
+include($ENV{ARIEO_BUILDENV_PACKAGE_INSTALL_FOLDER}/cmake/build_environment.cmake)
+project(ArieoEngine)
+
 #TODO implement with ubuntu and raspberry
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows" OR CMAKE_SYSTEM_NAME STREQUAL "Darwin")
-arieo_engine_project(
-    arieo_glfw_win_module
-    ALIAS arieo::modules::window::glfw
-    PROJECT_TYPE module
-    SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/private/src/*.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/private/src/*/*.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/private/src/*.mm
-        ${CMAKE_CURRENT_SOURCE_DIR}/private/src/*/*.mm
-    INTERFACES
-        arieo::interface::window
-    PACKAGES
-        glfw
-    LIBS
-        arieo::base
-        arieo::core
-        glfw::glfw
-)
+    arieo_engine_project(
+        arieo_glfw_win_module
+        ALIAS arieo::modules::window::glfw
+        PROJECT_TYPE module
+        SOURCES
+            ${CMAKE_CURRENT_SOURCE_DIR}/private/src/*.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/private/src/*/*.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/private/src/*.mm
+            ${CMAKE_CURRENT_SOURCE_DIR}/private/src/*/*.mm
+        INTERFACES
+            Arieo-Interface-Window::arieo_window_interface
+        PACKAGES
+            Arieo-Interface-Window
+            glfw
+            Arieo-Core
+        PRIVATE_LIBS
+            arieo::base
+            arieo::core
+            glfw::glfw
+    )
 elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux")
 # arieo_engine_project(
 #     arieo_glfw_win_module
