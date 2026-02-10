@@ -44,4 +44,11 @@ elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux")
 #         ${CMAKE_CURRENT_SOURCE_DIR}/private/src/*.cpp
 #         ${CMAKE_CURRENT_SOURCE_DIR}/private/src/*/*.cpp
 # )
+    # Create a dummy install target for Linux (not yet implemented)
+    message(STATUS "Arieo-Module-GlfwWindow: Skipping build for ${CMAKE_SYSTEM_NAME} (not yet implemented)")
+    install(CODE "message(STATUS \"Arieo-Module-GlfwWindow: No installation needed for ${CMAKE_SYSTEM_NAME}\")")
+else()
+    # Create a dummy install target for other platforms
+    message(STATUS "Arieo-Module-GlfwWindow: Skipping build for ${CMAKE_SYSTEM_NAME} (Windows/Darwin only)")
+    install(CODE "message(STATUS \"Arieo-Module-GlfwWindow: No installation needed for ${CMAKE_SYSTEM_NAME}\")")
 endif()
