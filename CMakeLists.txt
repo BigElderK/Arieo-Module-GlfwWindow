@@ -10,10 +10,11 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows" OR CMAKE_SYSTEM_NAME STREQUAL "Darwin")
         PROJECT_TYPE module
 
         DEPENDENCIES
-            PACKAGES
-                Arieo-Interface-Window
-                glfw
+            ARIEO_PACKAGES
                 Arieo-Core
+                Arieo-Interface-Window
+            THIRDPARTY_PACKAGES
+                glfw
             INTERFACES
                 Arieo-Interface-Window::arieo_window_interface
             PRIVATE_LIBS
@@ -22,10 +23,10 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows" OR CMAKE_SYSTEM_NAME STREQUAL "Darwin")
 
         SOURCES
             CXX_SOURCES
-                ${CMAKE_CURRENT_SOURCE_DIR}/private/src/*.cpp
-                ${CMAKE_CURRENT_SOURCE_DIR}/private/src/*/*.cpp
-                ${CMAKE_CURRENT_SOURCE_DIR}/private/src/*.mm
-                ${CMAKE_CURRENT_SOURCE_DIR}/private/src/*/*.mm
+                ${CMAKE_CURRENT_LIST_DIR}/private/src/*.cpp
+                ${CMAKE_CURRENT_LIST_DIR}/private/src/*/*.cpp
+                ${CMAKE_CURRENT_LIST_DIR}/private/src/*.mm
+                ${CMAKE_CURRENT_LIST_DIR}/private/src/*/*.mm
     )
 elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux")
 # arieo_engine_project(
@@ -43,8 +44,8 @@ elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux")
 #         ubuntu_sysroot::X11
 #
 #     SOURCES
-#         ${CMAKE_CURRENT_SOURCE_DIR}/private/src/*.cpp
-#         ${CMAKE_CURRENT_SOURCE_DIR}/private/src/*/*.cpp
+#         ${CMAKE_CURRENT_LIST_DIR}/private/src/*.cpp
+#         ${CMAKE_CURRENT_LIST_DIR}/private/src/*/*.cpp
 # )
     # Create a dummy install target for Linux (not yet implemented)
     message(STATUS "Arieo-Module-GlfwWindow: Skipping build for ${CMAKE_SYSTEM_NAME} (not yet implemented)")
