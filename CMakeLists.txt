@@ -9,21 +9,23 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows" OR CMAKE_SYSTEM_NAME STREQUAL "Darwin")
         arieo_glfw_win_module
         PROJECT_TYPE module
 
-        PACKAGES
-            Arieo-Interface-Window
-            glfw
-            Arieo-Core
-        INTERFACES
-            Arieo-Interface-Window::arieo_window_interface
-        PRIVATE_LIBS
-            Arieo-Core::arieo_core
-            glfw::glfw
+        DEPENDENCIES
+            PACKAGES
+                Arieo-Interface-Window
+                glfw
+                Arieo-Core
+            INTERFACES
+                Arieo-Interface-Window::arieo_window_interface
+            PRIVATE_LIBS
+                Arieo-Core::arieo_core
+                glfw::glfw
 
         SOURCES
-            ${CMAKE_CURRENT_SOURCE_DIR}/private/src/*.cpp
-            ${CMAKE_CURRENT_SOURCE_DIR}/private/src/*/*.cpp
-            ${CMAKE_CURRENT_SOURCE_DIR}/private/src/*.mm
-            ${CMAKE_CURRENT_SOURCE_DIR}/private/src/*/*.mm
+            CXX_SOURCES
+                ${CMAKE_CURRENT_SOURCE_DIR}/private/src/*.cpp
+                ${CMAKE_CURRENT_SOURCE_DIR}/private/src/*/*.cpp
+                ${CMAKE_CURRENT_SOURCE_DIR}/private/src/*.mm
+                ${CMAKE_CURRENT_SOURCE_DIR}/private/src/*/*.mm
     )
 elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux")
 # arieo_engine_project(
