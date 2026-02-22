@@ -1,11 +1,18 @@
 cmake_minimum_required (VERSION 3.31)
 
 include($ENV{ARIEO_BUILD_ENV_PACKAGES_OUTPUT_DIR}/cmake/build_environment.cmake)
-project(ArieoEngine)
+
+ARIEO_PACKAGE(
+    Arieo-Module-GlfwWindow
+    CATEGORY 02_engine
+    DEPENDS
+        https://github.com/BigElderK/Arieo-Core.git@main
+        https://github.com/BigElderK/Arieo-Interface-Window.git@main
+)
 
 #TODO implement with ubuntu and raspberry
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows" OR CMAKE_SYSTEM_NAME STREQUAL "Darwin")
-    arieo_engine_project(
+    ARIEO_ENGINE_PROJECT(
         arieo_glfw_win_module
         PROJECT_TYPE module
 
@@ -15,9 +22,8 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows" OR CMAKE_SYSTEM_NAME STREQUAL "Darwin")
                 Arieo-Interface-Window
             THIRDPARTY_PACKAGES
                 glfw
-            INTERFACES
-                Arieo-Interface-Window::arieo_window_interface
             PRIVATE_LIBS
+                Arieo-Interface-Window::arieo_window_interface
                 Arieo-Core::arieo_core
                 glfw::glfw
 
