@@ -26,7 +26,7 @@ namespace Arieo
         return nullptr;
     }
 
-    Interface::Window::IWindow* GLFWindowManager::createWindow(std::uint16_t pos_x, std::uint16_t pos_y, std::uint16_t width, std::uint16_t height)
+    Base::Interface<Interface::Window::IWindow> GLFWindowManager::createWindow(std::uint16_t pos_x, std::uint16_t pos_y, std::uint16_t width, std::uint16_t height)
     {
         // Configure GLFW window
         // glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -47,13 +47,13 @@ namespace Arieo
         return glf_window;
     }
 
-    Interface::Window::IWindow* GLFWindowManager::getMainWindow()
+    Base::Interface<Interface::Window::IWindow> GLFWindowManager::getMainWindow()
     {
         Core::Logger::error("GLFWindowManager::getMainWindow() not implemented, using createWindow instead");
         return nullptr;
     }
 
-    void GLFWindowManager::destroyWindow(Interface::Window::IWindow* window)
+    void GLFWindowManager::destroyWindow(Base::Interface<Interface::Window::IWindow> window)
     {
         GLFWindow* glfwindow = Base::castInterfaceToInstance<GLFWindow>(window);
         m_glf_window_set.erase(glfwindow);

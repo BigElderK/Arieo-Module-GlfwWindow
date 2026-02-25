@@ -1,5 +1,6 @@
 #pragma once
 #include "interface/window/window.h"
+#include "base/interface/interface.h"
 
 // #define GLFW_INCLUDE_VULKAN
 #define GLFW_INCLUDE_NONE
@@ -12,7 +13,7 @@ namespace Arieo
     {
     public:
         GLFWindow(Interface::Window::IWindowManager* window_manager, GLFWwindow* window)
-            : m_window_manager(window_manager), m_glfw_window(window)
+            : m_glfw_window(window), m_window_manager(window_manager)
         {
 
         }
@@ -46,7 +47,7 @@ namespace Arieo
             return glfwWindowShouldClose(m_glfw_window);
         }
 
-        Interface::Window::IWindowManager* getWindowManager() override
+        Base::Interface<Interface::Window::IWindowManager> getWindowManager() override
         {
             return m_window_manager;
         }
@@ -75,7 +76,7 @@ namespace Arieo
     private:
         friend class GLFWindowManager;
         GLFWwindow* m_glfw_window;
-        Interface::Window::IWindowManager* m_window_manager;
+        Base::Interface<Interface::Window::IWindowManager> m_window_manager;
     };
 
     class GLFWindowManager final
@@ -89,10 +90,10 @@ namespace Arieo
 
         void* getDisplay() override;
 
-        Interface::Window::IWindow* createWindow(std::uint16_t pos_x, std::uint16_t pos_y, std::uint16_t width, std::uint16_t height) override;
-        void destroyWindow(Interface::Window::IWindow*) override;
+        Base::Interface<Interface::Window::IWindow> createWindow(std::uint16_t pos_x, std::uint16_t pos_y, std::uint16_t width, std::uint16_t height) override;
+        void destroyWindow(Base::Interface<Interface::Window::IWindow>) override;
 
-        Interface::Window::IWindow* getMainWindow() override;
+        Base::Interface<Interface::Window::IWindow> getMainWindow() override;
     public:
         void onInitialize() override;
         void onTick() override;
