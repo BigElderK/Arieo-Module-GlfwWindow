@@ -55,10 +55,10 @@ namespace Arieo
 
     void GLFWindowManager::destroyWindow(Base::Interface<Interface::Window::IWindow> window)
     {
-        GLFWindow* glfwindow = Base::castInterfaceToInstance<GLFWindow>(window);
+        GLFWindow* glfwindow = window.castTo<GLFWindow>();
         m_glf_window_set.erase(glfwindow);
         glfwDestroyWindow(glfwindow->m_glfw_window);
-        Base::deleteT(glfwindow);
+        window.destroyAs<GLFWindow>();
     }
 
     void GLFWindowManager::onInitialize()
