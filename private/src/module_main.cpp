@@ -14,7 +14,6 @@ namespace Arieo
             
             DllLoader()
             {
-                glfw_window_manager->setSelf(glfw_window_manager.queryInterface<Interface::Window::IWindowManager>());
                 glfw_window_manager->initialize();
                 
                 Base::Interface<Interface::Main::IMainModule> main_module = Core::ModuleManager::getInterface<Interface::Main::IMainModule>();

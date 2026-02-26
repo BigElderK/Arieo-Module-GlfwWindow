@@ -12,8 +12,8 @@ namespace Arieo
         : public Interface::Window::IWindow
     {
     public:
-        GLFWindow(Base::Interface<Interface::Window::IWindowManager> window_manager, GLFWwindow* window)
-            : m_glfw_window(window), m_window_manager(window_manager)
+        GLFWindow(GLFWwindow* window)
+            : m_glfw_window(window)
         {
 
         }
@@ -46,11 +46,6 @@ namespace Arieo
         {
             return glfwWindowShouldClose(m_glfw_window);
         }
-
-        Base::Interface<Interface::Window::IWindowManager> getWindowManager() override
-        {
-            return m_window_manager;
-        }
         
         Base::StringID getWindowPlatform() override
         {
@@ -76,7 +71,6 @@ namespace Arieo
     private:
         friend class GLFWindowManager;
         GLFWwindow* m_glfw_window;
-        Base::Interface<Interface::Window::IWindowManager> m_window_manager;
     };
 
     class GLFWindowManager final
@@ -98,11 +92,5 @@ namespace Arieo
         void onInitialize() override;
         void onTick() override;
         void onDeinitialize() override;
-
-    public:
-        // for module main to call
-        void setSelf(Base::Interface<Interface::Window::IWindowManager> self){ m_self = self; }
-    private:
-        Base::Interface<Interface::Window::IWindowManager> m_self = nullptr;
     };
 }

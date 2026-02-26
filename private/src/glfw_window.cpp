@@ -41,7 +41,7 @@ namespace Arieo
             return nullptr;
         }
 
-        Base::Interface<Interface::Window::IWindow> window = Base::Interface<Interface::Window::IWindow>::createAs<GLFWindow>(m_self, glfw_window);
+        Base::Interface<Interface::Window::IWindow> window = Base::Interface<Interface::Window::IWindow>::createAs<GLFWindow>(glfw_window);
         m_glf_window_set.emplace(window);
 
         return window;
@@ -56,6 +56,11 @@ namespace Arieo
     void GLFWindowManager::destroyWindow(Base::Interface<Interface::Window::IWindow> window)
     {
         GLFWindow* glfwindow = window.castTo<GLFWindow>();
+        if(glfwindow == nullptr)
+        {
+            Core::Logger::error("Failed to cast window to GLFWindow when destroying");
+            return;
+        }
         glfwDestroyWindow(glfwindow->m_glfw_window);
 
         window.destroyAs<GLFWindow>();
@@ -69,7 +74,7 @@ namespace Arieo
 
     void GLFWindowManager::onTick()
     {
-        for(Base::Interface<Interface::Window::IWindow> window : m_glf_window_set)
+        for(Base::Interface<Interface::Window::IWindow> window : std::unordered_set(m_glf_window_set))
         {
             GLFWindow* glf_window = window.castTo<GLFWindow>();
             if(!glfwWindowShouldClose(glf_window->m_glfw_window)) 
