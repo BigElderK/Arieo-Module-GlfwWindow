@@ -13,7 +13,7 @@ namespace Arieo
 
     void GLFWindowManager::finalize()
     {
-        for(GLFWindow* window : std::unordered_set(m_glf_window_set))
+        for(Base::Interface<Interface::Window::IWindow> window : std::unordered_set(m_glf_window_set))
         {
             destroyWindow(window);
         }
@@ -34,17 +34,17 @@ namespace Arieo
         glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
         glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 
-        GLFWwindow* window = glfwCreateWindow(width, height, "GLFW Window", nullptr, nullptr);
-        if (!window) 
+        GLFWwindow* glfw_window = glfwCreateWindow(width, height, "GLFW Window", nullptr, nullptr);
+        if (glfw_window == nullptr) 
         {
             Core::Logger::error("Failed to create GLFW window");
             return nullptr;
         }
 
-        GLFWindow* glf_window = Base::newT<GLFWindow>(this, window);
-        m_glf_window_set.emplace(glf_window);
+        Base::Interface<Interface::Window::IWindow> window = Base::Interface<Interface::Window::IWindow>::createAs<GLFWindow>(m_self, glfw_window);
+        m_glf_window_set.emplace(window);
 
-        return glf_window;
+        return window;
     }
 
     Base::Interface<Interface::Window::IWindow> GLFWindowManager::getMainWindow()
@@ -56,9 +56,10 @@ namespace Arieo
     void GLFWindowManager::destroyWindow(Base::Interface<Interface::Window::IWindow> window)
     {
         GLFWindow* glfwindow = window.castTo<GLFWindow>();
-        m_glf_window_set.erase(glfwindow);
         glfwDestroyWindow(glfwindow->m_glfw_window);
+
         window.destroyAs<GLFWindow>();
+        m_glf_window_set.erase(window);
     }
 
     void GLFWindowManager::onInitialize()
@@ -68,15 +69,16 @@ namespace Arieo
 
     void GLFWindowManager::onTick()
     {
-        for(GLFWindow* window : m_glf_window_set)
+        for(Base::Interface<Interface::Window::IWindow> window : m_glf_window_set)
         {
-            if(!glfwWindowShouldClose(window->m_glfw_window)) 
+            GLFWindow* glf_window = window.castTo<GLFWindow>();
+            if(!glfwWindowShouldClose(glf_window->m_glfw_window)) 
             {
                 // Clear the screen
                 // glClear(GL_COLOR_BUFFER_BIT);
 
                 // Swap front and back buffers
-                glfwSwapBuffers(window->m_glfw_window);
+                glfwSwapBuffers(glf_window->m_glfw_window);
 
                 // Poll for and process events
                 glfwPollEvents();

@@ -12,7 +12,7 @@ namespace Arieo
         : public Interface::Window::IWindow
     {
     public:
-        GLFWindow(Interface::Window::IWindowManager* window_manager, GLFWwindow* window)
+        GLFWindow(Base::Interface<Interface::Window::IWindowManager> window_manager, GLFWwindow* window)
             : m_glfw_window(window), m_window_manager(window_manager)
         {
 
@@ -83,7 +83,7 @@ namespace Arieo
         : public Interface::Window::IWindowManager
     {
     protected:
-        std::unordered_set<GLFWindow*> m_glf_window_set;
+        std::unordered_set<Base::Interface<Interface::Window::IWindow>> m_glf_window_set;
     public:
         void initialize();
         void finalize();
@@ -98,5 +98,11 @@ namespace Arieo
         void onInitialize() override;
         void onTick() override;
         void onDeinitialize() override;
+
+    public:
+        // for module main to call
+        void setSelf(Base::Interface<Interface::Window::IWindowManager> self){ m_self = self; }
+    private:
+        Base::Interface<Interface::Window::IWindowManager> m_self = nullptr;
     };
 }

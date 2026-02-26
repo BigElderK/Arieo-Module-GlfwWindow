@@ -10,27 +10,28 @@ namespace Arieo
 
         static struct DllLoader
         {
-            GLFWindowManager glfw_window_manager;
-
+            Base::Instance<GLFWindowManager> glfw_window_manager;
+            
             DllLoader()
             {
-                glfw_window_manager.initialize();
+                glfw_window_manager->setSelf(glfw_window_manager.queryInterface<Interface::Window::IWindowManager>());
+                glfw_window_manager->initialize();
                 
                 Base::Interface<Interface::Main::IMainModule> main_module = Core::ModuleManager::getInterface<Interface::Main::IMainModule>();
-                main_module->registerTickable(&glfw_window_manager);
+                main_module->registerTickable(glfw_window_manager.queryInterface<Interface::Main::ITickable>());
 
-                Core::ModuleManager::registerInterface<Interface::Window::IWindowManager>(
+                Core::ModuleManager::registerInstance<Interface::Window::IWindowManager, GLFWindowManager>(
                     "glfw_window_manager", 
-                    &glfw_window_manager
+                    glfw_window_manager
                 );
             }
 
             ~DllLoader()
             {
-                Core::ModuleManager::unregisterInterface<Interface::Window::IWindowManager>(
-                    &glfw_window_manager
+                Core::ModuleManager::unregisterInstance<Interface::Window::IWindowManager, GLFWindowManager>(
+                    glfw_window_manager
                 );
-                glfw_window_manager.finalize();
+                glfw_window_manager->finalize();
             }
         } dll_loader;
     }
