@@ -56,11 +56,6 @@ namespace Arieo
     void GLFWindowManager::destroyWindow(Base::Interface<Interface::Window::IWindow> window)
     {
         GLFWindow* glfwindow = window.castTo<GLFWindow>();
-        if(glfwindow == nullptr)
-        {
-            Core::Logger::error("Failed to cast window to GLFWindow when destroying");
-            return;
-        }
         glfwDestroyWindow(glfwindow->m_glfw_window);
 
         window.destroyAs<GLFWindow>();
