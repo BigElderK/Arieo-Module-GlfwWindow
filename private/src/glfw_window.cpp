@@ -13,7 +13,7 @@ namespace Arieo
 
     void GLFWindowManager::finalize()
     {
-        for(Base::InteropOld<Interface::Window::IWindow> window : std::unordered_set(m_glf_window_set))
+        for(Base::Interop::RawRef<Interface::Window::IWindow> window : std::unordered_set(m_glf_window_set))
         {
             destroyWindow(window);
         }
@@ -26,7 +26,7 @@ namespace Arieo
         return nullptr;
     }
 
-    Base::InteropOld<Interface::Window::IWindow> GLFWindowManager::createWindow(std::uint16_t pos_x, std::uint16_t pos_y, std::uint16_t width, std::uint16_t height)
+    Base::Interop::RawRef<Interface::Window::IWindow> GLFWindowManager::createWindow(std::uint16_t pos_x, std::uint16_t pos_y, std::uint16_t width, std::uint16_t height)
     {
         // Configure GLFW window
         // glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -41,25 +41,25 @@ namespace Arieo
             return nullptr;
         }
 
-        Base::InteropOld<Interface::Window::IWindow> window = Base::InteropOld<Interface::Window::IWindow>::createAs<GLFWindow>(glfw_window);
+        Base::Interop::RawRef<Interface::Window::IWindow> window = Base::Interop::RawRef<Interface::Window::IWindow>::createAs<GLFWindow>(glfw_window);
         m_glf_window_set.emplace(window);
 
         return window;
     }
 
-    Base::InteropOld<Interface::Window::IWindow> GLFWindowManager::getMainWindow()
+    Base::Interop::RawRef<Interface::Window::IWindow> GLFWindowManager::getMainWindow()
     {
         Core::Logger::error("GLFWindowManager::getMainWindow() not implemented, using createWindow instead");
         return nullptr;
     }
 
-    void GLFWindowManager::destroyWindow(Base::InteropOld<Interface::Window::IWindow> window)
+    void GLFWindowManager::destroyWindow(Base::Interop::RawRef<Interface::Window::IWindow> window)
     {
-        GLFWindow* glfwindow = window.castTo<GLFWindow>();
+        GLFWindow* glfwindow = window.castToInstance<GLFWindow>();
         glfwDestroyWindow(glfwindow->m_glfw_window);
 
         m_glf_window_set.erase(window);
-        Base::InteropOld<Interface::Window::IWindow>::destroyAs<GLFWindow>(std::move(window));
+        Base::Interop::RawRef<Interface::Window::IWindow>::destroyAs<GLFWindow>(std::move(window));
     }
 
     void GLFWindowManager::onInitialize()
@@ -69,9 +69,9 @@ namespace Arieo
 
     void GLFWindowManager::onTick()
     {
-        for(Base::InteropOld<Interface::Window::IWindow> window : std::unordered_set(m_glf_window_set))
+        for(Base::Interop::RawRef<Interface::Window::IWindow> window : std::unordered_set(m_glf_window_set))
         {
-            GLFWindow* glf_window = window.castTo<GLFWindow>();
+            GLFWindow* glf_window = window.castToInstance<GLFWindow>();
             if(!glfwWindowShouldClose(glf_window->m_glfw_window)) 
             {
                 // Clear the screen
@@ -95,3 +95,7 @@ namespace Arieo
         
     }
 }
+
+
+
+
