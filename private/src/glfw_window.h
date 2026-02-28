@@ -1,6 +1,6 @@
 #pragma once
 #include "interface/window/window.h"
-#include "base/interface/interface.h"
+#include "base/interop/interface.h"
 
 // #define GLFW_INCLUDE_VULKAN
 #define GLFW_INCLUDE_NONE
