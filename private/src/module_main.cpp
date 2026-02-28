@@ -16,7 +16,7 @@ namespace Arieo
             {
                 glfw_window_manager->initialize();
                 
-                Base::Interop<Interface::Main::IMainModule> main_module = Core::ModuleManager::getInterface<Interface::Main::IMainModule>();
+                Base::InteropOld<Interface::Main::IMainModule> main_module = Core::ModuleManager::getInterface<Interface::Main::IMainModule>();
                 main_module->registerTickable(glfw_window_manager.queryInterface<Interface::Main::ITickable>());
 
                 Core::ModuleManager::registerInstance<Interface::Window::IWindowManager, GLFWindowManager>(
